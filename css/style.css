@@ -55,3 +55,148 @@ h2 { margin: 0 0 10px; }
   padding: 20px;
   color: #475569;
 }
+
+/* ─── Edit controls ──────────────────────────────────────────────────────────── */
+.edit-controls {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  background: #1d4ed8;
+  color: white;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
+  transition: background 0.15s;
+}
+.ctrl-btn:hover { background: #1e40af; }
+.ctrl-btn--save { background: #16a34a; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35); }
+.ctrl-btn--save:hover { background: #15803d; }
+
+/* ─── Editable areas ─────────────────────────────────────────────────────────── */
+.edit-mode [data-editable] {
+  outline: 2px dashed #3b82f6;
+  outline-offset: 3px;
+  border-radius: 4px;
+  min-height: 24px;
+  cursor: text;
+}
+.edit-mode [data-editable]:focus {
+  outline: 2px solid #1d4ed8;
+  background: rgba(59, 130, 246, 0.04);
+}
+
+/* Lighter outline inside the dark hero */
+.edit-mode .hero [data-editable] {
+  outline-color: rgba(255, 255, 255, 0.55);
+}
+.edit-mode .hero [data-editable]:focus {
+  outline-color: white;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Links get a highlight so users know they're clickable */
+.edit-mode a {
+  outline: 1px dashed #f59e0b;
+  outline-offset: 2px;
+  border-radius: 3px;
+  cursor: pointer !important;
+}
+
+/* ─── Skills edit mode ───────────────────────────────────────────────────────── */
+.edit-mode .tags li {
+  position: relative;
+  padding-right: 28px;
+  cursor: text;
+  outline: 2px dashed #3b82f6;
+  outline-offset: 2px;
+}
+
+.tag-remove-btn {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 2px;
+  content-editable: false;
+}
+.tag-remove-btn:hover { color: #b91c1c; }
+
+.add-skill-btn {
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #e0f2fe;
+  color: #075985;
+  border: 1px dashed #38bdf8;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.add-skill-btn:hover { background: #bae6fd; }
+
+/* ─── Link editor popover ────────────────────────────────────────────────────── */
+.link-editor {
+  position: absolute;
+  z-index: 2000;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  width: 290px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.14);
+}
+.link-editor-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0 0 12px;
+  color: #1e293b;
+}
+.link-editor label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 10px;
+}
+.link-editor input {
+  padding: 7px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+.link-editor input:focus { border-color: #3b82f6; }
+.link-editor-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.link-editor-actions button {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+#link-apply-btn { background: #1d4ed8; color: white; }
+#link-apply-btn:hover { background: #1e40af; }
+#link-cancel-btn { background: #f1f5f9; color: #334155; }
+#link-cancel-btn:hover { background: #e2e8f0; }

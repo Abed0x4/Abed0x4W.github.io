@@ -8,9 +8,9 @@
 </head>
 <body>
   <header class="hero">
-    <h1>Dein Name</h1>
-    <p class="subtitle">Jobtitel / Rolle – Kurzprofil in 1 Satz</p>
-    <div class="links">
+    <h1 data-editable="name">Dein Name</h1>
+    <p class="subtitle" data-editable="subtitle">Jobtitel / Rolle – Kurzprofil in 1 Satz</p>
+    <div class="links" data-editable="hero-links">
       <a href="mailto:deine@mail.de">E-Mail</a>
       <a href="https://github.com/Abed0x4" target="_blank" rel="noreferrer">GitHub</a>
       <a href="#kontakt">Kontakt</a>
@@ -20,7 +20,7 @@
   <main>
     <section id="ueber">
       <h2>Über mich</h2>
-      <p>Kurze Vorstellung: 2–4 Sätze über dich, Fokus, was du suchst.</p>
+      <p data-editable="ueber">Kurze Vorstellung: 2–4 Sätze über dich, Fokus, was du suchst.</p>
     </section>
 
     <section id="skills">
@@ -28,11 +28,12 @@
       <ul class="tags">
         <li>HTML</li><li>CSS</li><li>JavaScript</li><li>Git</li>
       </ul>
+      <button id="add-skill-btn" class="add-skill-btn" hidden>+ Skill hinzufügen</button>
     </section>
 
     <section id="erfahrung">
       <h2>Erfahrung</h2>
-      <div class="card">
+      <div class="card" data-editable="erfahrung">
         <h3>Jobtitel – Firma</h3>
         <p class="meta">2024 – heute · Ort/Remote</p>
         <ul>
@@ -44,7 +45,7 @@
 
     <section id="projekte">
       <h2>Projekte</h2>
-      <div class="card">
+      <div class="card" data-editable="projekte">
         <h3>Projektname</h3>
         <p>Kurzbeschreibung (1–2 Sätze).</p>
         <p><a href="https://github.com/Abed0x4" target="_blank" rel="noreferrer">Repo-Link</a></p>
@@ -53,15 +54,38 @@
 
     <section id="kontakt">
       <h2>Kontakt</h2>
-      <p>E-Mail: <a href="mailto:deine@mail.de">deine@mail.de</a></p>
-      <p>LinkedIn: <a href="https://linkedin.com/in/DEIN-PROFIL" target="_blank" rel="noreferrer">Profil</a></p>
+      <div data-editable="kontakt">
+        <p>E-Mail: <a href="mailto:deine@mail.de">deine@mail.de</a></p>
+        <p>LinkedIn: <a href="https://linkedin.com/in/DEIN-PROFIL" target="_blank" rel="noreferrer">Profil</a></p>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <small>© <span id="year"></span> Dein Name</small>
+    <small>© <span id="year"></span> <span data-editable="footer-name">Dein Name</span></small>
   </footer>
 
-  <script src="js/script.js"></script>
+  <!-- Edit controls -->
+  <div class="edit-controls">
+    <button id="edit-btn" class="ctrl-btn">&#9998; Bearbeiten</button>
+    <button id="save-btn" class="ctrl-btn ctrl-btn--save" hidden>&#128190; Speichern</button>
+  </div>
+
+  <!-- Link editor popover -->
+  <div id="link-editor" class="link-editor" hidden>
+    <p class="link-editor-title">Link bearbeiten</p>
+    <label>Text
+      <input id="link-text-input" type="text" placeholder="Anzeigetext" />
+    </label>
+    <label>URL / E-Mail
+      <input id="link-href-input" type="text" placeholder="https://… oder email@example.com" />
+    </label>
+    <div class="link-editor-actions">
+      <button id="link-apply-btn">&#10003; &Uuml;bernehmen</button>
+      <button id="link-cancel-btn">Abbrechen</button>
+    </div>
+  </div>
+
+  <script src="js/style.js"></script>
 </body>
 </html>
