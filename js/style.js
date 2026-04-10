@@ -1,5 +1,13 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// ─── Initial DOM snapshot (must run before loadSavedData) ────────────────────
+const INITIAL_SNAPSHOT = {};
+document.querySelectorAll("[data-editable]").forEach(el => {
+  INITIAL_SNAPSHOT[el.dataset.editable] = el.innerHTML;
+});
+INITIAL_SNAPSHOT._skills = Array.from(document.querySelectorAll(".tags li"))
+  .map(li => li.textContent.trim());
+
 // ─── Persistence ──────────────────────────────────────────────────────────────
 function saveAll() {
   const data = {};
@@ -11,10 +19,7 @@ function saveAll() {
   localStorage.setItem("cv_data", JSON.stringify(data));
 }
 
-function loadSavedData() {
-  let data;
-  try { data = JSON.parse(localStorage.getItem("cv_data")); } catch { return; }
-  if (!data) return;
+function applyData(data) {
   document.querySelectorAll("[data-editable]").forEach(el => {
     if (data[el.dataset.editable] != null) el.innerHTML = data[el.dataset.editable];
   });
@@ -29,19 +34,38 @@ function loadSavedData() {
   }
 }
 
+function loadSavedData() {
+  let data;
+  try { data = JSON.parse(localStorage.getItem("cv_data")); } catch { return; }
+  if (!data) return;
+  applyData(data);
+}
+
 loadSavedData();
 
 // ─── Edit mode ────────────────────────────────────────────────────────────────
 let editMode = false;
 const editBtn = document.getElementById("edit-btn");
 const saveBtn = document.getElementById("save-btn");
+const resetBtn = document.getElementById("reset-btn");
 
-editBtn.addEventListener("click", enterEditMode);
-saveBtn.addEventListener("click", exitEditMode);
+function syncResetBtn() {
+  resetBtn.hidden = !localStorage.getItem("cv_data") && !editMode;
+}
+
+syncResetBtn();
+
+editBtn.addEventListener("click", () => {
+  if (editMode) exitEditMode(false);
+  else enterEditMode();
+});
+saveBtn.addEventListener("click", () => exitEditMode(true));
+resetBtn.addEventListener("click", resetAll);
 
 function enterEditMode() {
   editMode = true;
   document.body.classList.add("edit-mode");
+  editBtn.classList.add("ctrl-btn--active");
   document.querySelectorAll("[data-editable]").forEach(el => {
     el.contentEditable = "true";
   });
@@ -50,13 +74,14 @@ function enterEditMode() {
     addSkillRemoveBtn(li);
   });
   document.getElementById("add-skill-btn").hidden = false;
-  editBtn.hidden = true;
   saveBtn.hidden = false;
+  resetBtn.hidden = false;
 }
 
-function exitEditMode() {
+function exitEditMode(save) {
   editMode = false;
   document.body.classList.remove("edit-mode");
+  editBtn.classList.remove("ctrl-btn--active");
   document.querySelectorAll("[data-editable]").forEach(el => {
     el.contentEditable = "false";
   });
@@ -65,10 +90,18 @@ function exitEditMode() {
   });
   document.querySelectorAll(".tag-remove-btn").forEach(btn => btn.remove());
   document.getElementById("add-skill-btn").hidden = true;
-  editBtn.hidden = false;
   saveBtn.hidden = true;
   closeLinkEditor();
-  saveAll();
+  if (save) saveAll();
+  syncResetBtn();
+}
+
+function resetAll() {
+  if (!confirm("Alle gespeicherten \u00c4nderungen l\u00f6schen und Originalzustand wiederherstellen?")) return;
+  localStorage.removeItem("cv_data");
+  applyData(INITIAL_SNAPSHOT);
+  if (editMode) exitEditMode(false);
+  syncResetBtn();
 }
 
 // ─── Skills ───────────────────────────────────────────────────────────────────

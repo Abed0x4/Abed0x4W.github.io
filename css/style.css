@@ -200,3 +200,10 @@ h2 { margin: 0 0 10px; }
 #link-apply-btn:hover { background: #1e40af; }
 #link-cancel-btn { background: #f1f5f9; color: #334155; }
 #link-cancel-btn:hover { background: #e2e8f0; }
+
+/* ─── Additional button states ───────────────────────────────────────────────── */
+.ctrl-btn--reset { background: #dc2626; box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35); }
+.ctrl-btn--reset:hover { background: #b91c1c; }
+
+.ctrl-btn--active { background: #7c3aed; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35); }
+.ctrl-btn--active:hover { background: #6d28d9; }
